@@ -190,7 +190,7 @@ class Blockchain {
         let stars = [];
         return new Promise( async (resolve, reject) => {
             if (self.chain.height) {
-                self.chain.map( block => {
+                self.chain.map( async block => {
                     if (block.address === address) {
                         const data = await block.getBData()
                         stars.push(data);
