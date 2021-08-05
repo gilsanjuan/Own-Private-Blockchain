@@ -73,11 +73,11 @@ class Blockchain {
             // Assign block timestamp
             block.time = new Date().getTime().toString().slice(0,-3)
             // Create block hash
-            block.hash = SHA256(JSON.stringify(block).toString())
-            // Add block in the chain 
+            block.hash = SHA256(JSON.stringify(block)).toString()
+            // Add block in the chain
             self.chain.push(block)
             // Update chain height
-            self.chain.height += 1
+            self.height = block.height
             // Resolve
             if (self.chain[self.height].hash !== block.hash) {
                 reject('Somethin wrong. Cant add block')
