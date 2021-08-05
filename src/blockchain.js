@@ -136,7 +136,7 @@ class Blockchain {
                 if (!hasValidSignature) {
                     reject(Error("Signature not valid"))
                 } else {
-                    const newBlock = new BlockClass.Block({star})
+                    const newBlock = new BlockClass.Block({owner: address, star})
                     await self._addBlock(newBlock)
                     resolve(newBlock)
                 }
@@ -189,14 +189,17 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise( async (resolve, reject) => {
-            if (self.chain.height) {
-                self.chain.map( async block => {
-                    if (block.address === address) {
-                        const data = await block.getBData()
-                        stars.push(data);
+            console.log('chain height', self.height)
+            if (self.height) {
+                self.chain.forEach( async block => {
+                    const blockData = await block.getBData()
+                    if (blockData.owner === address) {
+                        stars.push(blockData)
                     }
                 })
             }
+
+            resolve(stars)
         });
     }
 
