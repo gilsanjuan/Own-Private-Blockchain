@@ -213,7 +213,22 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
-            
+            if (self.height) {
+                self.chain.forEach( async block => {
+                    const hasValidBlock = await block.validate()
+                    if (!hasValidBlock) {
+                        errorLog.push({block: block.hash, message: "Block invalid"})
+                    }
+
+                    if (block.height !== 0) {
+                        if (block.previousBlockHash !== self.chain[block.height-1].hash) {
+                            errorLog.push({block: block.hash, message: "Chain's broken"})
+                        }
+                    }
+                })
+            }
+
+            resolve(errorLog)
         });
     }
 
