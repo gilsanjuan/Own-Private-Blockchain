@@ -132,12 +132,12 @@ class Blockchain {
                 reject(Error("Timeout"))
             } else {
                 // Verify the message with wallet address and signature
-                const hasValidSignature = bitcoinMessage.verify(message, address, signature)
+                const hasValidSignature = bitcoinMessage.verify(message, address, signature, null, true)
                 if (!hasValidSignature) {
                     reject(Error("Signature not valid"))
                 } else {
                     const newBlock = new BlockClass.Block({star})
-                    await self._addBlock(block)
+                    await self._addBlock(newBlock)
                     resolve(newBlock)
                 }
             }
