@@ -157,7 +157,7 @@ class Blockchain {
            if (!blockHash) {
                 reject(null)
            } else {
-                resolve(block)
+                resolve(blockHash)
            }
         });
     }
@@ -217,12 +217,12 @@ class Blockchain {
                 self.chain.forEach( async block => {
                     const hasValidBlock = await block.validate()
                     if (!hasValidBlock) {
-                        errorLog.push({block: block.hash, message: "Block invalid"})
+                        errorLog.push({block: block, message: "Block invalid"})
                     }
 
                     if (block.height !== 0) {
                         if (block.previousBlockHash !== self.chain[block.height-1].hash) {
-                            errorLog.push({block: block.hash, message: "Chain's broken"})
+                            errorLog.push({block: block, message: "Chain's broken"})
                         }
                     }
                 })
