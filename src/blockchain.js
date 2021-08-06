@@ -137,8 +137,14 @@ class Blockchain {
                     reject(Error("Signature not valid"))
                 } else {
                     const newBlock = new BlockClass.Block({owner: address, star})
-                    await self._addBlock(newBlock)
-                    resolve(newBlock)
+                    const hasValidChain = await self.validateChain()
+
+                    if (hasValidChain.length) {
+                        reject(hasValidChain)
+                    } else {
+                        await self._addBlock(newBlock)
+                        resolve(newBlock)
+                    }
                 }
             }
         });
